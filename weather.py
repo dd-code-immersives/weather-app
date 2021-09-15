@@ -1,39 +1,47 @@
 import requests
 import csv
+import string
 
-api_key = "c65f07a477ed814d4725adf9eabb948b"
+API_KEY = "c65f07a477ed814d4725adf9eabb948b"
 
-base_url = "http://api.openweathermap.org/data/2.5/weather?"
+BASE_URL = "http://api.openweathermap.org/data/2.5/weather?"
 
 
 def get_weather(city_name, flags):
-    complete_url = base_url + "appid=" + api_key + "&q=" + city_name
+    """
+    Gets the weather for multiple cities
+    """
+    complete_url = BASE_URL + "appid=" + API_KEY + "&q=" + city_name
     response = requests.get(complete_url)
-    x = response.json()
-    if x["cod"] != "404":
-        y = x["main"]
-        current_temperature = y["temp"]
-        current_pressure = y["pressure"]
-        current_humidity = y["humidity"]
-        z = x["weather"]
-        weather_description = z[0]["description"]
+    JsonFile = response.json()
+    c_name = city_name
+    if JsonFile["cod"] != "404":
+        JsonMain = JsonFile["main"]
+        k_temp = JsonMain["temp"]
+        c_temp = k_temp - 273.15
+        f_temp = str(round(c_temp * (9/5) + 32, 2))
+        c_pressure = str(JsonMain["pressure"])
+        c_humidity = str(JsonMain["humidity"])
+        jsonWeather = JsonFile["weather"]
+        w_description = str(jsonWeather[0]["description"])
         if len(flags) > 0:
             for flag in flags:
                 if flag == "temp":
-                    print(" Temperature YOU WANT(in kelvin unit) = " +
-                          str(current_temperature))
+                    print(f"The temperature at {c_name} is {f_temp}F˚")
                 if flag == "pressure":
-                    print(
-                        "Atmospheric pressure YOU WANT (in hPa unit) = " + str(current_pressure))
+                    print(f"The pressure at {c_name} is {c_pressure}hPa")
                 if flag == "hum":
-                    print("Humidity YOU WANT (in percentage) = " +
-                          str(current_humidity))
+                    print(f"The humidity at {c_name} is {c_humidity}%")
                 if flag == "desc":
-                    print("Description YOU WANT = " + str(weather_description))
+                    print(f"The description at {c_name} is {w_description}")
         else:
-            print("Temperature (in kelvin unit) = " + str(current_temperature))
-            print("Atmospheric pressure (in hPa unit) = " + str(current_pressure))
-            print("Humidity (in percentage) = " + str(current_humidity))
-            print("Description = " + str(weather_description))
+            print(f"""
+            The weather info you requested for 
+            {c_name}
+            Temperature: {f_temp}F˚ 
+            Barometric pressure is at {c_pressure}hPa
+            Humidity is {c_humidity}%
+            Weather description is as follows: {w_description}
+            """)
     else:
         print(" City Not Found ")
