@@ -1,0 +1,1 @@
+{"temperature": 2968, "pressure": 0, "hum": 0, "desc": 0, "city_count": 10}
