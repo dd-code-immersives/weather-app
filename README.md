@@ -6,8 +6,14 @@ Write a cli that adds the following functionality
 (description) --desc
 
 - add a function that can take a text file of city names and it displays all the temperatures and then the averages of all the above  
-(for this to work, you will have to refactor the code)
+(for this to work, you will have to refactor the code) 
+
+some hints:
+1. think about saving all the output in a json file from the request(s) and then doing the calculations
+
 - add any other feature you see as useful!
 
 
-After you have written the CLI, use chmod to make the python file executable using chmod.
+After you have written the CLI, use chmod to make the python file executable using chmod. 
+
+- run pylint, autopep8 before committing. 
